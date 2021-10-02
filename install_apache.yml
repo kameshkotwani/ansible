@@ -8,7 +8,9 @@
   - name: Install apache2 pakcage
     apt:
       name: apache2
+		when: ansible_distribution == ["Debian","Ubuntu"]
 
   - name: Add php support for apache
     apt:
       name: libapache2-mod-php
+		when: ansible_distribution == ["Debian","Ubuntu"]
