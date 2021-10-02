@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Update repo index
+    apt: 
+      update_cache: yes
+  - name: Uinstall apache2 pakcage
+    apt:
+      name: apache2
+      state: absent
+
+  - name: remove apache php lib
+    apt:
+      name: libapache2-mod-php
+      state: absent
