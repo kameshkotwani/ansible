@@ -11,5 +11,6 @@
     - name: update cache on arch servers
       dnf: 
         update_cache: yes
+        update_only: yes
       when: ansible_distribution == "Fedora"
     
