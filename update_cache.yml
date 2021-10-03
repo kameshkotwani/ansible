@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: updating cache on ubuntu servers
+      apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_distribution == "Ubuntu"
+      
+    - name: update cache on arch servers
+      dnf: 
+        update_cache: yes
+      when: ansible_distribution == "Fedora"
+    
