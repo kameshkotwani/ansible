@@ -1,0 +1,24 @@
+--- 
+- hosts: all
+  become: true
+  tasks:
+
+- hosts: web_servers
+  become: true
+  tasks:
+    - name: install apache and php on ubuntu server
+      apt:       
+        update_cache: yes
+        name:
+           - apache2
+           - libapache2-mod-php
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+    - name: install apache and php on fedora server
+      dnf:
+        update_cache: yes
+        name:
+          - httpd
+          - php
+      when: ansible_distribution == "Fedora"
