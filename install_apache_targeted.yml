@@ -24,6 +24,15 @@
           - php
       when: ansible_distribution == "Fedora"
 
+    - name: starting httpd service in Fedora
+      tags: apache,fedora,httpd
+      service: 
+        name: httpd
+        state: started
+        enabled: yes
+      when: ansible_distribution == "Fedora"
+
+
     - name: copy default html file for site
       tags: apache2,apache, httpd
       copy:
