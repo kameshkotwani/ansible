@@ -1,0 +1,11 @@
+---
+- hosts: file_servers
+  become: true
+  
+  tasks:
+    - name: install jdk-8
+      apt:
+        name:  openjdk-8-jdk
+      when: ansible_distribution == "Ubuntu" 
+
+
