@@ -1,0 +1,76 @@
+--- 
+- hosts: all
+  become: true
+  pre_tasks:
+    
+
+- hosts: web_servers
+  become: true
+  tasks:
+    - name: install apache and php on ubuntu server
+      apt:       
+        update_cache: yes
+        name:
+           - apache2
+           - libapache2-mod-php
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+    - name: install apache and php on fedora server
+      dnf:
+        update_cache: yes
+        name:
+          - httpd
+          - php
+      when: ansible_distribution == "Fedora"
+
+    - name: starting httpd service in Fedora
+      tags: apache,fedora,httpd
+      service: 
+        name: httpd
+        state: started
+        enabled: yes
+      when: ansible_distribution == "Fedora"
+
+    - name: change email-address for admin
+      tags: apache,centos,httpd
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^ServerAdmin'
+        line: ServerAdmin someone@something.com
+      when: ansible_distribution == "Fedora" 
+      register: httpd
+
+    - name: restart httpd (Fedora)
+      tags: apache,centos,httpd
+      service:
+        name: httpd
+        state: restarted
+      when: httpd.changed
+
+    - name: copy default html file for site
+      tags: apache2,apache, httpd
+      copy:
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
+
+- hosts: db_servers
+  become: true
+  tasks:
+    - name: install mariadb package (ubuntu)
+      apt:
+        name: mariadb-server
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+- hosts: file_servers
+  become: true
+  tasks:
+    - name: install samba package
+      package: 
+        name: samba
+        state: latest
+      
