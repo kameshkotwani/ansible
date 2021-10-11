@@ -2,14 +2,15 @@
 - hosts: all
   become: true
   pre_tasks:
+
     - name: update cache on ubuntu servers
-       apt:
+      apt:
         update_cache: yes
       when: ansible_distribution == "Ubuntu"
 
     - name: update cache on Fedora servers
-       dnf:
-         update_cache: yes
+      dnf:
+        update_cache: yes
       when: ansible_distribution == "Fedora"
  
 - hosts: all
