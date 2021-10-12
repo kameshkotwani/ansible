@@ -7,11 +7,13 @@
       apt:
         update_cache: yes
       when: ansible_distribution == "Ubuntu"
+      changed_when: False
 
     - name: update cache on Fedora servers
       dnf:
         update_cache: yes
       when: ansible_distribution == "Fedora"
+      changed_when: False
  
 - hosts: all
   become: true
